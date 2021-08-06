@@ -24,7 +24,7 @@ function collectRecords(mainFolderPath, monkeyBreed) {
                 LatinName: breedDetails.LatinName,
                 CommonName: breedDetails.CommonName,
                 id: fileName,
-                FilePath: `${mainFolderPath.substr(2)}/${fileName}`
+                FilePath: `${mainFolderPath.substr(2)}/${breedDetails.Label}/${fileName}`
             }
             records.push(record)
         })
