@@ -1,0 +1,14 @@
+[
+    {
+        "Label": "n0",
+        "LatinName": "alouatta_palliata",
+        "CommonName": "mantled_howler",
+        "count": 10
+    },
+    {
+        "Label": "n1",
+        "LatinName": "erythrocebus_patas",
+        "CommonName": "patas_monkey",
+        "count": 15
+    }
+]

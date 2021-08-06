@@ -2,13 +2,11 @@ const fs = require("fs");
 const csv = require("csvtojson")
 const objToCsv = require('csv-to-js-parser').objToCsv;
 
+function collectRecords(mainFolderPath, monkeyBreed) {
 
-async function init() {
-    const monkeyBreed = await csv().fromFile("./labels.csv")
-    console.log("monkeyBreed:", monkeyBreed)
-    const mainFolderPath = "./training/training"
     const mainFolder = fs.readdirSync(mainFolderPath)
     console.log("mainFolder:", mainFolder)
+
     let records = []
     for (let i = 0; i < mainFolder.length; i++) {
         const subFolder = mainFolder[i]
@@ -25,12 +23,25 @@ async function init() {
                 Label: breedDetails.Label,
                 LatinName: breedDetails.LatinName,
                 CommonName: breedDetails.CommonName,
-                id: fileName
+                id: fileName,
+                FilePath: `${mainFolderPath.substr(2)}/${fileName}`
             }
             records.push(record)
         })
     }
     console.log(records)
+    return records
+
+}
+async function init() {
+    const monkeyBreed = await csv().fromFile("./labels.csv")
+    console.log("monkeyBreed:", monkeyBreed)
+
+    const trainingMainFolderPath = "./training/training"
+    const trainingRecords = collectRecords(trainingMainFolderPath, monkeyBreed)
+    const validatonMainFolderPath = "./validation/validation"
+    const validationRecords = collectRecords(validatonMainFolderPath, monkeyBreed)
+    const records = [...trainingRecords, ...validationRecords]
     const jsonString = JSON.stringify(records)
     fs.writeFileSync("monkeys_records.json", jsonString)
     const csvString = objToCsv(records, ',');
