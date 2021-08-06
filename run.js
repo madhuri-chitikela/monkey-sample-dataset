@@ -1,5 +1,7 @@
 const fs = require("fs");
 const csv = require("csvtojson")
+const objToCsv = require('csv-to-js-parser').objToCsv;
+
 
 async function init() {
     const monkeyBreed = await csv().fromFile("./labels.csv")
@@ -31,5 +33,8 @@ async function init() {
     console.log(records)
     const jsonString = JSON.stringify(records)
     fs.writeFileSync("monkeys_records.json", jsonString)
+    const csvString = objToCsv(records, ',');
+
+    fs.writeFileSync('monkeys_records.csv', csvString);
 }
 init()
